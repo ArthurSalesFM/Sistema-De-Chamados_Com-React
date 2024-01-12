@@ -8,7 +8,7 @@
 
 #### Ordem de desenvolvimento do projeto (Branchs)
 
-* *main -> estiloGlobal -> Rotas -> paginaLogin -> paginaCadastro*
+* *main -> estiloGlobal -> Rotas -> paginaLogin -> paginaCadastro -> configFireBase*
 
 #### Tecnologias/Conceitos Utilizadas
 
