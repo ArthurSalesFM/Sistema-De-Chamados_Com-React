@@ -8,7 +8,7 @@
 
 #### Ordem de desenvolvimento do projeto (Branchs)
 
-* *main -> estiloGlobal -> Rotas*
+* *main -> estiloGlobal -> Rotas -> paginaLogin*
 
 #### Tecnologias/Conceitos Utilizadas
 
