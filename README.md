@@ -6,10 +6,6 @@
 
 * *Visual Studio Code*
 
-#### Ordem de desenvolvimento do projeto (Branchs)
-
-* *main -> estiloGlobal -> Rotas*
-
 #### Tecnologias/Conceitos Utilizadas
 
 * *Javascript*
