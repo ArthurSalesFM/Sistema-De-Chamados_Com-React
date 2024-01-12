@@ -10,6 +10,23 @@ export default function SignUp(){
     const [senha, setSenha] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
 
+    function handleSubmit(event){
+        event.preventDefault();
+
+        if(nome === '' || email === '' || senha === '' || confirmaSenha === ''){
+            alert('Preencha todos os campos.');
+            return;
+        }
+
+        if(senha !== confirmaSenha){
+            alert('As senhas não são iguais.');
+            return;
+        }
+        
+        alert('Usuário cadastrado com Sucesso!');
+        
+    }
+
     return(
         <div className='container-center'>
 
@@ -23,7 +40,7 @@ export default function SignUp(){
 
                 </div>
 
-                <form>
+                <form onSubmit={handleSubmit}>
 
                     <h1>Nova Conta</h1>
 
