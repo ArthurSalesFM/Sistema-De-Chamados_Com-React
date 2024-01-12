@@ -1,7 +1,9 @@
 //import './signin.css';
 import logo from '../../assets/logo.png';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/auth';
+import { toast } from 'react-toastify';
 
 export default function SignUp(){
 
@@ -10,20 +12,22 @@ export default function SignUp(){
     const [senha, setSenha] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
 
-    function handleSubmit(event){
+    const { signUp, loadingAuth } = useContext(AuthContext);
+
+    async function handleSubmit(event){
         event.preventDefault();
 
         if(nome === '' || email === '' || senha === '' || confirmaSenha === ''){
-            alert('Preencha todos os campos.');
+            toast.warning('Preencha todos os campos.');
             return;
         }
 
         if(senha !== confirmaSenha){
-            alert('As senhas não são iguais.');
+            toast.error('As senhas não são iguais.');
             return;
         }
         
-        alert('Usuário cadastrado com Sucesso!');
+        await signUp(email, senha, nome);
         
     }
 
@@ -68,7 +72,9 @@ export default function SignUp(){
                     value={confirmaSenha} 
                     onChange={(event) => setConfirmaSenha(event.target.value)}/>
                 
-                    <button type='submit'>Cadastrar</button>
+                    <button type='submit'>
+                        {loadingAuth ? 'Cadastrando...' : 'Cadastrar'}
+                    </button>
 
                 </form>
 

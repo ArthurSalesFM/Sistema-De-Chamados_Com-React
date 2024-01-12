@@ -3,6 +3,7 @@ import logo from '../../assets/logo.png';
 import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/auth';
+import { toast } from 'react-toastify';
 
 export default function SignIn(){
 
@@ -14,7 +15,7 @@ export default function SignIn(){
         event.preventDefault();
 
         if(senha === "" || email === ""){
-            alert('Preencha todos os campos para logar.');
+            toast.warning('Preencha todos os campos para logar.');
             return;
         }
 
