@@ -73,9 +73,14 @@ form button:hover{
     font-style: italic;
 }
 
-.login a{
+.login span{
     margin: 1.5rem 0;
     color: black;
+}
+
+.login a{
+    margin: 1.5rem 0;
+    color: #182c83;
 }
 
 .login a:hover{

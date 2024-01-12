@@ -41,7 +41,8 @@ export default function SignIn(){
 
                 </form>
 
-                <Link to='/register'>Cadastre-se</Link>
+                <span>Não tem cadastro? <Link to='/register'>Cadastre-se</Link></span>
+                
 
             </div>
 
