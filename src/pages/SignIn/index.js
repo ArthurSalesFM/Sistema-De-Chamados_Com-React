@@ -9,9 +9,9 @@ export default function SignIn(){
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const { signIn } = useContext(AuthContext);
+    const { signIn, loadingAuth } = useContext(AuthContext);
 
-    function handleSignIn(event){
+    async function handleSignIn(event){
         event.preventDefault();
 
         if(senha === "" || email === ""){
@@ -19,7 +19,7 @@ export default function SignIn(){
             return;
         }
 
-        signIn(email, senha);
+        await signIn(email, senha);
     }
 
     return(
@@ -51,13 +51,14 @@ export default function SignIn(){
                     value={senha} 
                     onChange={(event) => setSenha(event.target.value)}/>
                 
-                    <button type='submit'>Acessar</button>
+                    <button type='submit'>
+                        {loadingAuth ? 'Carregando...' : 'Acessar'}
+                    </button>
 
                 </form>
 
                 <span>Não tem cadastro? <Link to='/register'>Cadastre-se</Link></span>
                 
-
             </div>
 
         </div>
