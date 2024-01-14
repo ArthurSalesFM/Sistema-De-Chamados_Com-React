@@ -40,11 +40,28 @@
     transition: ease-in-out 0.4s;
 }
 
+.sidebar label{
+    display: block;
+    padding: 16px;
+    display: flex;
+    text-decoration: none;
+    color: rgba(255,255,255,0.7);
+    flex-direction: row;
+    align-items: center;
+    transition: ease-in-out 0.4s;
+    cursor: pointer;
+}
+
 .sidebar a svg{
     margin-right: 0.5rem;
 }
 
 .sidebar a:hover{
+    background-color: #121212;
+    color: white;
+}
+
+.sidebar label:hover{
     background-color: #121212;
     color: white;
 }
@@ -70,11 +87,19 @@
         float: left;
     }
 
+    .sidebar label{
+        float: left;
+    }
+
     .sidebar div{
         display: none;
     }
 
     .sidebar a svg{
+        display: none;
+    }
+
+    .sidebar label svg{
         display: none;
     }
 }
@@ -86,7 +111,16 @@
         float: none;
     }
 
+    .sidebar label{
+        text-align: center;
+        float: none;
+    }
+
     .sidebar a svg{
+        display: none;
+    }
+
+    .sidebar label svg{
         display: none;
     }
 

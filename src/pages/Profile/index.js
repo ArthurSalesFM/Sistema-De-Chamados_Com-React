@@ -13,7 +13,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function Profile(){
 
-    const { user, storageUser, setUser, logout } = useContext(AuthContext);
+    const { user, storageUser, setUser } = useContext(AuthContext);
     const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
     const [imageAvatar, setImageAvatar] = useState(null);
     const [nome, setNome] = useState(user && user.nome);
@@ -127,10 +127,6 @@ export default function Profile(){
 
                     </form>                    
 
-                </div>
-
-                <div className="container">
-                    <button className="logout-btn" onClick={() => logout()}>Sair</button>
                 </div>
 
             </div>

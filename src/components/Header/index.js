@@ -1,13 +1,13 @@
 import './header.css';
 import avatarImg from '../../assets/avatar.png';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
-import { FiHome, FiUser, FiSettings } from 'react-icons/fi';
+import { FiHome, FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
+import { useContext } from "react";
 
 export default function Header(){
 
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
 
     return(
         <div className='sidebar'>
@@ -28,6 +28,11 @@ export default function Header(){
                 <FiSettings color='#FFF' size={24}/>
                 Perfil
             </Link>
+
+            <label onClick={() => logout()}>
+                <FiLogOut color='#FFF' size={24}/>
+                 _Sair
+            </label>
         </div>
     );
 }
