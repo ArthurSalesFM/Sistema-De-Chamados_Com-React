@@ -31,7 +31,7 @@ export default function Header(){
 
             <label onClick={() => logout()}>
                 <FiLogOut color='#FFF' size={24}/>
-                 _Sair
+                Sair
             </label>
         </div>
     );
