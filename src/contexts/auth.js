@@ -94,6 +94,7 @@ function AuthProvider({children}){
         await signOut(auth);
         localStorage.removeItem('@ticketsPRO');
         setUser(null);
+        toast.warn('Você saiu do Sistema.');
     }
 
     return(
@@ -104,7 +105,9 @@ function AuthProvider({children}){
             signUp,
             logout,
             loadingAuth,
-            loading 
+            loading,
+            storageUser,
+            setUser
         }}>
             {children}
         </AuthContext.Provider>
