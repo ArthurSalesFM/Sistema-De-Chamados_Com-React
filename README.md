@@ -8,7 +8,7 @@
 
 #### Ordem de desenvolvimento do projeto (Branchs)
 
-* *main -> estiloGlobal -> Rotas -> paginaLogin -> paginaCadastro -> configFireBase -> contextAPI -> cadastroUsuario -> loginUsuario -> paginaPrivada*
+* *main -> estiloGlobal -> Rotas -> paginaLogin -> paginaCadastro -> configFireBase -> contextAPI -> cadastroUsuario -> loginUsuario -> paginaPrivada -> CriandoHeader*
 
 #### Tecnologias/Conceitos Utilizadas
 
