@@ -2,17 +2,87 @@ import './new.css';
 import Title from '../../components/Title';
 import Header from '../../components/Header';
 import { FiPlusCircle } from 'react-icons/fi';
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../contexts/auth';
+import { db } from '../../services/firebaseConnection';
+import { collection, getDoc, getDocs, doc, addDoc  } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+
+const listRef = collection(db, 'customers');
 
 export default function New(){
 
+    const { user } = useContext(AuthContext);
     const [customers, setCustomers] = useState({});
     const [complemento, setComplemento] = useState('');
     const [assunto, setAssunto] = useState('Suporte');
     const [status, setStatus] = useState('Aberto');
+    const [loadCustomer, setLoadCustomer] = useState(true);
+    const [customerSelected, setCustomerSelected] = useState(0);
+
+    useEffect(() =>{
+        async function loadCustomer(){
+            const querySnapshot = await getDocs(listRef)
+            .then((snapshot) =>{
+                let list = [];
+                snapshot.forEach((doc) => {
+                    list.push({
+                        id: doc.id,
+                        nomeFantasia: doc.data().nomeFantasia
+                    });
+                })
+                
+                if(snapshot.docs.size === 0){
+                    setCustomers([{ id: 1, nomeFantasia: 'Teste'}]);
+                    setLoadCustomer(false);
+                    return;
+                }
+
+                setCustomers(list);
+                setLoadCustomer(false);
+
+            })
+            .catch((error) =>{
+                setLoadCustomer(false);
+                setCustomers([{ id: 1, nomeFantasia: 'Teste'}]);
+            })
+        }
+
+        loadCustomer();
+
+    }, []);
 
     function handleOptionChance(event){
         setStatus(event.target.value);
+    }
+
+    function handleChangeSelect(event){
+        setAssunto(event.target.value);
+    }
+
+    function handleChangeCustomer(event){
+        setCustomerSelected(event.target.value);
+    }
+
+    async function handleRegister(event){
+        event.preventDefault();
+        await addDoc(collection(db, "chamados"), {
+            created: new Date(),
+            cliente: customers[customerSelected].nomeFantasia,
+            clienteId: customers[customerSelected].id,
+            assunto: assunto,
+            complemento: complemento,
+            status: status,
+            userId: user.uid,
+        })
+        .then(() =>{
+            setComplemento('');
+            setCustomerSelected(0);
+            toast.success('Chamado registrado com Sucesso');
+        })
+        .catch(() =>{
+            toast.error('Não foi possível registrar o chamado.\nTente Novamente depois.');
+        })
     }
 
     return(
@@ -28,16 +98,27 @@ export default function New(){
 
                 <div className='container'>
 
-                    <form className='form-profile'>
+                    <form className='form-profile' onSubmit={handleRegister}>
 
                         <label>Clientes</label>
-                        <select>
-                            <option key={1} value={1}>Mercado Teste</option>
-                            <option key={2} value={2}>Loja Informática</option>
-                        </select>
+                        {
+                            loadCustomer ? (
+                                <input type='text' disabled={true} value="Carregando..."/>
+                            ) : (
+                                <select value={customerSelected} onChange={handleChangeCustomer}>
+                                    {customers.map((item, index) =>{
+                                        return(
+                                            <option key={index} value={index}>
+                                                {item.nomeFantasia}
+                                            </option>
+                                        )
+                                    })}
+                                </select>
+                            )
+                        }
 
                         <label>Assunto</label>
-                        <select>
+                        <select value={assunto} onChange={handleChangeSelect}>
                             <option value="Suporte">Suporte</option>
                             <option value="Visita Técnica">Visita Técnica</option>
                             <option value="Financeiro">Financeiro</option>
