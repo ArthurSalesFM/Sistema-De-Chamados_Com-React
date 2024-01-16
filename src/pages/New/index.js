@@ -5,8 +5,9 @@ import { FiPlusCircle } from 'react-icons/fi';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
 import { db } from '../../services/firebaseConnection';
-import { collection, getDoc, getDocs, doc, addDoc  } from 'firebase/firestore';
+import { collection, getDoc, getDocs, doc, addDoc, updateDoc  } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const listRef = collection(db, 'customers');
 
@@ -19,8 +20,12 @@ export default function New(){
     const [status, setStatus] = useState('Aberto');
     const [loadCustomer, setLoadCustomer] = useState(true);
     const [customerSelected, setCustomerSelected] = useState(0);
+    const { id } = useParams();
+    const [idCustomer, setIdCustomer] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() =>{
+
         async function loadCustomer(){
             const querySnapshot = await getDocs(listRef)
             .then((snapshot) =>{
@@ -41,6 +46,10 @@ export default function New(){
                 setCustomers(list);
                 setLoadCustomer(false);
 
+                if(id){
+                    loadId(list);
+                }
+
             })
             .catch((error) =>{
                 setLoadCustomer(false);
@@ -50,7 +59,26 @@ export default function New(){
 
         loadCustomer();
 
-    }, []);
+    }, [id]);
+
+    async function loadId(lista){
+        const docRef = doc(db, 'chamados', id);
+        await getDoc(docRef)
+        .then((snapshot) => {
+            setAssunto(snapshot.data().assunto);
+            setStatus(snapshot.data().status);
+            setComplemento(snapshot.data().complemento);
+
+            let index = lista.findIndex(item => item.id === snapshot.data().clienteId);
+            setCustomerSelected(index);
+            setIdCustomer(true);
+
+        })
+        .catch((error) => {
+            toast.error('Chamado não encontrado!');
+            setIdCustomer(false);
+        })
+    }
 
     function handleOptionChance(event){
         setStatus(event.target.value);
@@ -65,7 +93,32 @@ export default function New(){
     }
 
     async function handleRegister(event){
+
         event.preventDefault();
+
+        if(idCustomer){
+            //Atulizando os chamados
+            const docRef = doc(db, 'chamados', id);
+            await updateDoc(docRef, {
+                cliente: customers[customerSelected].nomeFantasia,
+                clienteId: customers[customerSelected].id,
+                assunto: assunto,
+                complemento: complemento,
+                status: status,
+                userId: user.uid,
+            })
+            .then(() =>{
+                toast.info('Informações atualizadas com Sucesso.');
+                setCustomerSelected(0);
+                setComplemento('');
+                navigate('/dashboard');
+            })
+            .catch(() => {
+                toast.error('Erro na atualização das informações.');
+            })
+            return;
+        }
+
         await addDoc(collection(db, "chamados"), {
             created: new Date(),
             cliente: customers[customerSelected].nomeFantasia,
@@ -92,7 +145,7 @@ export default function New(){
 
             <div className='content'>
 
-                <Title name="Novo chamado">
+                <Title name={id ? "Editando Chamado" : "Novo Chamado"}>
                     <FiPlusCircle size={25}/>
                 </Title>
 
