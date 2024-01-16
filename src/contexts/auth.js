@@ -94,7 +94,7 @@ function AuthProvider({children}){
         await signOut(auth);
         localStorage.removeItem('@ticketsPRO');
         setUser(null);
-        toast.warn('Você saiu do Sistema.');
+        toast.info('Você saiu do Sistema.');
     }
 
     return(
