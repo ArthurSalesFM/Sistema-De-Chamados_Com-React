@@ -12,6 +12,7 @@
 
 #### Tecnologias/Conceitos Utilizadas
 
+* *React*
 * *Javascript*
 * *HTML*
 * *CSS*
