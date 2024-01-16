@@ -16,7 +16,7 @@
 * *Javascript*
 * *HTML*
 * *CSS*
+* *Firebase*
 * *Hooks*
 * *Routes*
 * *ContextAPI*
-* *Firebase*
